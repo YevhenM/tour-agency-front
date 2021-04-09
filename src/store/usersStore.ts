@@ -63,6 +63,12 @@ class usersStore {
             return false         
         }
 
+        if(password.length < 5){
+            this.helperText1 = "password is too short"
+            this.inputError = true
+            return false         
+        }
+
         this.users.push({"login": login, "password": password, "cart": [] })
         this.loginInput = ""
         this.passwordInput = ""
@@ -105,7 +111,9 @@ class usersStore {
              if(this.users[index]['password'] === password ) {
                  this.userIndex = index
                  this.isAuth = true
-                 this.saveLocalStorage()                 
+                 this.saveLocalStorage()
+                 this.loginInput=""
+                 this.passwordInput=""                 
                 } else { this.inputError = true }  
             } else {  this.inputError = true }
     }
