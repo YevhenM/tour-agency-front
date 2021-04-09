@@ -1,35 +1,36 @@
-import React from 'react';
-import './App.css';
-import {Container, Box, Button, TextField} from '@material-ui/core'
+import "./App.css";
+import {Container, Box, Button, TextField} from "@material-ui/core"
+import Login from "../src/components/login"
+import Signin from "../src/components/signin"
+import Dashboard from "../src/components/dashboard"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route  
+} from "react-router-dom";
+import usersStore from "./store/usersStore";
 
-function App() {
+function App() {  
+  
+  usersStore.initializeApp()    
+  
   return (
-    <div className="App">
 
-      <Container>
-        <Box>
-          <h2>Hello world app</h2>
-        </Box>
-        <Box m={3}>
-          <TextField id="outlined-basic" label="Login" variant="outlined" />
-        </Box>
-        <Box m={1}>
-          <TextField id="outlined-basic" label="Password" variant="outlined" />
-        </Box>
-        <Box m={1}>
-          <Button variant="contained" >Log in</Button>
-        </Box>
+    <Router>  
+      <Container className="App">
+        <Switch>
+          <Route path = "/" exact = {true}> <Dashboard/ > </Route>
+        </Switch>
 
-        <Box component="span" m={1}>        
-          
-          
-          <Button variant="contained" color="primary">
-              Sign In
-          </Button>
-        </Box>
+        <Switch>
+          <Route path = "/login" exact = {true}> <Login/ > </Route>
+        </Switch>
+
+        <Switch>
+          <Route path = "/signin" exact = {true}> <Signin/ > </Route>
+        </Switch>       
       </Container>
-      
-    </div>
+    </Router>    
   );
 }
 
