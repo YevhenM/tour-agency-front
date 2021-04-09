@@ -29,7 +29,8 @@ const Login = observer(() => {
             <TextField  id="outlined-basic" 
                         type="password"
                         label="Password"
-                        error = {usersStore.inputError} 
+                        error = {usersStore.inputError}
+                        helperText = {usersStore.helperText} 
                         variant="outlined" 
                         value={usersStore.passwordInput} 
                         onChange={(event)=>{usersStore.passwordTextChange(event.target.value)}} />

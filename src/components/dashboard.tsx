@@ -7,7 +7,7 @@ import usersStore from "../store/usersStore"
 const Dashboard = observer(() => {
 
 if (!usersStore.isAuth) {
-        return <Redirect to={'/login'} />
+        return <Redirect to={'/login'} />        
     }
 
     return (
@@ -15,6 +15,7 @@ if (!usersStore.isAuth) {
         <Container>
         
             <h1>Dashboard</h1>
+            <h3>{usersStore.users[usersStore.userIndex].login}</h3>
             <Box>
                 <Button variant="contained" color="primary" onClick={()=>usersStore.logOff()} >Log off</Button>
             </Box>        
