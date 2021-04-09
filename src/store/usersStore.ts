@@ -1,4 +1,4 @@
-import {makeAutoObservable, observable, computed} from "mobx"
+import {makeAutoObservable} from "mobx"
 import {IUser} from "../interfaces/IUser";
 
 class usersStore {
@@ -57,7 +57,7 @@ class usersStore {
              return false 
         }
 
-        if(password != passwordConfirm){
+        if(password !== passwordConfirm){
             this.helperText1 = "password does not match"
             this.inputError = true
             return false         
@@ -85,7 +85,7 @@ class usersStore {
     }
 
     regisrationToggleSwitch() {
-      this.regisrationToggle = !this.regisrationToggle
+      this.regisrationToggle = !this.regisrationToggle     
     }
     
     loginTextChange(value:string){

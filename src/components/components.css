@@ -2,6 +2,10 @@
     width: 100px;
 }
 
+.top{
+    margin-top: 10px;
+}
+
 .topBox{
     /* height: calc(50vh - 270px); */
     height: 15vh;

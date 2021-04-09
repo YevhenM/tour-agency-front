@@ -21,7 +21,7 @@ const Signin = observer(() => {
             <h3>Sign in: </h3>
           </Box>
           <Box m={1}>
-            <TextField  id="outlined-basic" 
+            <TextField  
                         label="Login"
                         error = {usersStore.inputError}
                         helperText = {usersStore.helperText} 
@@ -30,7 +30,7 @@ const Signin = observer(() => {
                         onChange={(event)=>{usersStore.loginTextChange(event.target.value)}} />
           </Box>
           <Box m={1}>
-            <TextField  id="outlined-basic" 
+            <TextField 
                         label="Password"
                         error = {usersStore.inputError}
                         helperText = {usersStore.helperText1} 
@@ -49,6 +49,7 @@ const Signin = observer(() => {
                         value={usersStore.passwordConfirm} 
                         onChange={(event)=>{usersStore.passwordConfirmTextChange(event.target.value)}} />
           </Box>
+          <Box m={2}></Box>
           <Box component="span" m={1}> 
             <Button     variant="contained" 
                         color="primary" 

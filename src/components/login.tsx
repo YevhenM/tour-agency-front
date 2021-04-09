@@ -4,12 +4,14 @@ import {observer} from "mobx-react-lite"
 import { Redirect } from "react-router-dom"
 import './components.css'
 
+
 const pressEnterHandler = (event:any) => {    
-  if(event.key=="Enter"){       
+  if(event.key==="Enter" && !usersStore.regisrationToggle && !usersStore.isAuth){       
     usersStore.logIn()
-  }
+  } 
 }
 document.addEventListener("keydown", pressEnterHandler)
+
 
 const Login = observer(() => {
 
@@ -27,7 +29,7 @@ const Login = observer(() => {
             <h3>Login: </h3>
           </Box>
           <Box m={1}>
-            <TextField  id="outlined-basic"  
+            <TextField    
                         label="Login"
                         error = {usersStore.inputError} 
                         variant="outlined" 
@@ -35,7 +37,7 @@ const Login = observer(() => {
                         onChange={(event)=>{usersStore.loginTextChange(event.target.value)}} />
           </Box>
           <Box m={1}>
-            <TextField  id="outlined-basic" 
+            <TextField  
                         type="password"
                         label="Password"
                         error = {usersStore.inputError}
@@ -44,7 +46,7 @@ const Login = observer(() => {
                         value={usersStore.passwordInput} 
                         onChange={(event)=>{usersStore.passwordTextChange(event.target.value)}} />
           </Box>
-
+          <Box m={2}></Box>
           <Box m={1}>
             <Button     variant="contained" 
                         color="primary" 
