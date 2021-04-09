@@ -2,6 +2,7 @@ import {Container, Box, Button, TextField} from '@material-ui/core'
 import usersStore from "../store/usersStore"
 import { observer } from "mobx-react-lite"
 import { Redirect } from "react-router-dom"
+import './components.css'
 
 const Signin = observer(() => {
 
@@ -48,13 +49,19 @@ const Signin = observer(() => {
                         onChange={(event)=>{usersStore.passwordConfirmTextChange(event.target.value)}} />
           </Box>
           <Box component="span" m={1}> 
-            <Button variant="contained" color="primary" onClick={()=>usersStore.addUser()} >
-                Sign In
+            <Button     variant="contained" 
+                        color="primary" 
+                        onClick={()=>usersStore.addUser()}
+                        className="standartButton" >
+                        Sign In
             </Button>
           </Box>
 
           <Box m={1}>
-            <Button variant="contained" onClick={()=>usersStore.regisrationToggleSwitch()} > Back</Button>
+            <Button     variant="contained" 
+                        onClick={()=>usersStore.regisrationToggleSwitch()} 
+                        className="standartButton"> 
+                        Back</Button>
           </Box>
       </Container>   
       

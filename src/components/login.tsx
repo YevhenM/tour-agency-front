@@ -2,6 +2,14 @@ import {Container, Box, Button, TextField} from '@material-ui/core'
 import usersStore from "../store/usersStore"
 import {observer} from "mobx-react-lite"
 import { Redirect } from "react-router-dom"
+import './components.css'
+
+const pressEnterHandler = (event:any) => {    
+  if(event.key=="Enter"){       
+    usersStore.logIn()
+  }
+}
+document.addEventListener("keydown", pressEnterHandler)
 
 const Login = observer(() => {
 
@@ -37,11 +45,19 @@ const Login = observer(() => {
           </Box>
 
           <Box m={1}>
-            <Button variant="contained" color="primary" onClick={()=>usersStore.logIn()} >Log in</Button>
+            <Button     variant="contained" 
+                        color="primary" 
+                        onClick={()=>usersStore.logIn()}
+                        className="standartButton" >Log in
+            </Button>
           </Box>
 
           <Box component="span" m={1}> 
-            <Button variant="contained" onClick={()=>usersStore.regisrationToggleSwitch()}> Sign In </Button>
+            <Button     variant="contained" 
+                        onClick={()=>usersStore.regisrationToggleSwitch()}
+                        className="standartButton"
+                        > Sign In 
+            </Button>
           </Box>
       </Container>        
     )
