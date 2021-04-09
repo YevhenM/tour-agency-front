@@ -1,3 +1,12 @@
 .standartButton {
     width: 100px;
 }
+
+.topBox{
+    /* height: calc(50vh - 270px); */
+    height: 15vh;
+}
+
+h3{
+    color:rgb(62, 89, 177)
+}

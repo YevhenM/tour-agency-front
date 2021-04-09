@@ -22,6 +22,7 @@ const Login = observer(() => {
 
     return(      
       <Container>
+          <div className="topBox"></div>
           <Box>
             <h3>Login: </h3>
           </Box>
