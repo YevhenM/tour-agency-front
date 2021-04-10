@@ -19,6 +19,8 @@ class usersStore {
     passwordInput:string = ""
     passwordConfirm:string = ""
 
+    dialog:boolean = false
+
     constructor() {
         makeAutoObservable(this)
     }

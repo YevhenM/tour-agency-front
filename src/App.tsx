@@ -1,7 +1,7 @@
 import "./App.css";
 import {Container} from "@material-ui/core"
 import Login from "../src/components/login"
-import Signin from "../src/components/signin"
+import Signup from "./components/signup"
 import Dashboard from "../src/components/dashboard"
 import {
   BrowserRouter as Router,
@@ -27,7 +27,7 @@ function App() {
         </Switch>
 
         <Switch>
-          <Route path = "/signin" exact = {true}> <Signin/ > </Route>
+          <Route path = "/signup" exact = {true}> <Signup/ > </Route>
         </Switch>       
       </Container>
     </Router>    

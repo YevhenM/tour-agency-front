@@ -19,7 +19,7 @@ const Login = observer(() => {
     return <Redirect to={'/'} />
   }
   if (usersStore.regisrationToggle) {
-    return <Redirect to={'/signin'} />
+    return <Redirect to={'/signup'} />
   }
 
     return(      
@@ -59,7 +59,7 @@ const Login = observer(() => {
             <Button     variant="contained" 
                         onClick={()=>usersStore.regisrationToggleSwitch()}
                         className="standartButton"
-                        > Sign In 
+                        > Sign UP 
             </Button>
           </Box>
       </Container>        
