@@ -31,7 +31,7 @@ const Login = observer(() => {
           <Box m={1}>
             <TextField    
                         label="Login"
-                        error = {usersStore.inputError} 
+                        error = {usersStore.errorLogin} 
                         variant="outlined" 
                         value={usersStore.loginInput} 
                         onChange={(event)=>{usersStore.loginTextChange(event.target.value)}} />
@@ -40,7 +40,7 @@ const Login = observer(() => {
             <TextField  
                         type="password"
                         label="Password"
-                        error = {usersStore.inputError}
+                        error = {usersStore.errorPassword}
                         helperText = {usersStore.helperText} 
                         variant="outlined" 
                         value={usersStore.passwordInput} 

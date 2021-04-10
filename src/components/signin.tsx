@@ -23,7 +23,7 @@ const Signin = observer(() => {
           <Box m={1}>
             <TextField  
                         label="Login"
-                        error = {usersStore.inputError}
+                        error = {usersStore.errorLogin}
                         helperText = {usersStore.helperText} 
                         variant="outlined"
                         value={usersStore.loginInput} 
@@ -32,8 +32,7 @@ const Signin = observer(() => {
           <Box m={1}>
             <TextField 
                         label="Password"
-                        error = {usersStore.inputError}
-                        helperText = {usersStore.helperText1} 
+                        error = {usersStore.errorPassword}                         
                         variant="outlined" 
                         type="password"
                         value={usersStore.passwordInput} 
@@ -42,7 +41,7 @@ const Signin = observer(() => {
           <Box m={1}>
             <TextField  id="outlined-basic" 
                         label="Confirm password"
-                        error = {usersStore.inputError}
+                        error = {usersStore.errorPassword}
                         helperText = {usersStore.helperText1}  
                         variant="outlined" 
                         type="password"

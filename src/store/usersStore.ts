@@ -10,6 +10,8 @@ class usersStore {
     regisrationToggle:boolean = false
 
     inputError:boolean = false
+    errorLogin:boolean = false
+    errorPassword:boolean = false
     helperText:string = ""
     helperText1:string = ""
 
@@ -52,26 +54,25 @@ class usersStore {
 
         if (typeof(this.checkLogin(login)) == 'number') { 
              this.helperText = "this user already exists"
-             this.inputError = true 
-             this.loginInput = ""
+             this.errorLogin = true              
              return false 
         }
 
         if(password !== passwordConfirm){
             this.helperText1 = "password does not match"
-            this.inputError = true
+            this.errorPassword = true
             return false         
         }
 
         if(login.length < 3){
             this.helperText = "user name is too short"
-            this.inputError = true
+            this.errorLogin = true
             return false         
         }
 
         if(password.length < 5){
             this.helperText1 = "password is too short"
-            this.inputError = true
+            this.errorPassword = true
             return false         
         }
 
@@ -115,12 +116,14 @@ class usersStore {
         let password:string = this.passwordInput
         let index = this.checkLogin(login)        
         if (typeof(index) != 'number') {           
-            this.inputError = true
+            this.errorLogin = true
+            this.errorPassword = true
             this.helperText = "wrong login or password"
             return 
             }
         if (this.users[index]['password'] !== password ) {
-            this.inputError = true
+            this.errorLogin = true
+            this.errorPassword = true
             this.helperText = "wrong login or password"
             return                 
             }   
@@ -140,7 +143,8 @@ class usersStore {
     warningNull(){
         this.helperText=""
         this.helperText1=""
-        this.inputError=false
+        this.errorLogin = false
+        this.errorPassword = false
     }
 
 }
