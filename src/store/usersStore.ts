@@ -79,13 +79,24 @@ class usersStore {
         }
 
 
-        this.users.push({"login": login, "password": password, "cart": [] })
+        let index = this.users.push({"login": login, "password": password, "cart": [] })
+        index--
         this.loginInput = ""
         this.passwordInput = ""
         this.passwordConfirm = ""
-        this.regisrationToggle = false            
-        this.saveLocalStorage()        
+        this.dialog = true        
+        this.userIndex = index
+        this.isAuth = true
+        this.regisrationToggle = false
+        this.dialog = false            
+        this.saveLocalStorage()
+                
     }
+
+    loginAfterRegistration(){
+        
+    }
+
 
     regisrationToggleSwitch() {
       this.regisrationToggle = !this.regisrationToggle     
