@@ -147,7 +147,7 @@ class usersStore {
         this.passwordInput=""      
     }
     
-    logOff(){
+    logOut(){        
         this.isAuth = false
         this.userIndex = 0
         this.saveLocalStorage()
@@ -158,6 +158,31 @@ class usersStore {
         this.helperText1=""
         this.errorLogin = false
         this.errorPassword = false
+    }
+
+    addTourToCart(id:number){
+
+        if (parseInt(this.users[this.userIndex].cart.indexOf(id))<0) { this.users[this.userIndex].cart.push(id) }        
+        this.saveLocalStorage()        
+    }
+
+    delTourFromCart(id:number){   
+        
+        console.log("Del index - ", id)
+       
+        let index:number=-1
+        let lenght = this.users[this.userIndex].cart.length        
+
+        for(let i=0; i<lenght; i++){
+            let m = this.users[this.userIndex].cart[i]            
+            if (this.users[this.userIndex].cart[i] == id){
+                index = i
+            }
+        }        
+
+        if(index>-1){this.users[this.userIndex].cart.splice(index, 1)}
+
+        this.saveLocalStorage()        
     }
 
 }

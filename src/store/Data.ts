@@ -1,7 +1,13 @@
 import {makeAutoObservable} from "mobx";
+import { AnyARecord } from "node:dns";
+import { Redirect } from "react-router";
 import {ITour} from "../interfaces/ITour";
+import { IUser } from "../interfaces/IUser";
+import "../store/api"
+import { toursAPI } from "../store/api";
 
 //fake api call
+/*
 const fetchTours = (success: boolean, timeout: number): Promise<Array<ITour>> => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -365,20 +371,58 @@ const fetchTours = (success: boolean, timeout: number): Promise<Array<ITour>> =>
     })
 }
 //fake api call
-
+*/
 
 class Data {
     tours: ITour[] = [];
     currentPage: number = 1;
+    countofPages: number = 0;
     countCardsOnPage: number = 9;
     currentTour: ITour | undefined;
-    minPriceFilterMemory: number | undefined = undefined;
-    maxPriceFilterMemory: number | undefined = undefined;
+    minPriceFilterMemory: number  = 0;
+    maxPriceFilterMemory: number = 2000;
     sortedStatus: string | undefined = undefined;
+    location:any
+  
+
+    shouldSorting: boolean = false;
+    cheapFirst: boolean = false;
+
+    cheapButton: "outlined"|"contained" = "outlined"
+    expensiveButton: "outlined"|"contained" = "outlined"
+    
 
     constructor() {
         makeAutoObservable(this);
-        //ця штука ставить всі анотації за нас
+        
+    }
+
+
+    setLocation(location:any){        
+        this.location=location;
+    }
+    
+   
+
+    setCheapFirst(): void {
+        this.cheapFirst = true;
+        this.shouldSorting = true;
+        this.getData(1);         
+    }
+
+    setExpensiveFirst(): void {
+        this.cheapFirst = false;
+        this.shouldSorting = true;
+        this.getData(1);
+    }
+
+    setFilterClear(): void {  
+        this.cheapFirst = false;
+        this.shouldSorting = false;
+        this.minPriceFilterMemory = 0;
+        this.maxPriceFilterMemory = 2000;    
+        this.getData(1);
+       
     }
 
     setTours(tours: ITour[]): void {
@@ -395,6 +439,7 @@ class Data {
 
     setCurrentPage(n: number): void{
         this.currentPage = n;
+        this.getData()
     }
 
     incrementPage(): void {
@@ -410,10 +455,10 @@ class Data {
         this.countCardsOnPage = n;
     }
 
-    deleteFilterMemory(): void {
-        this.maxPriceFilterMemory = undefined;
-        this.minPriceFilterMemory = undefined;
-    }
+     deleteFilterMemory(): void {
+         this.maxPriceFilterMemory = 0;
+         this.minPriceFilterMemory = 2000;
+     }
 
     setMaxPriceFilterMemory(n: number): void {
         this.maxPriceFilterMemory = n;
@@ -427,11 +472,11 @@ class Data {
         this.currentPage = n;
     }
 
-    findAndSetCurrentTour = (id: number): void => {
-        fetchTours(true, 10).then(value => {
-            this.setCurrentTour(value.find(item => item.id === id));
-        }).catch(e => console.log(e));
-    }
+    // findAndSetCurrentTour = (id: number): void => {
+    //     fetchTours(true, 10).then(value => {
+    //         this.setCurrentTour(value.find(item => item.id === id));
+    //     }).catch(e => console.log(e));
+    // }
 
     //pagination
     get currentTours(): ITour[] | null {
@@ -441,43 +486,113 @@ class Data {
         return this.tours.slice(begin, end)
     }
 
-    get countOfPages(): number {
-        return Math.ceil(this.tours.length / this.countCardsOnPage);
-    }
+    // get countOfPages(): number {
+    //     return Math.ceil(this.tours.length / this.countCardsOnPage);
+    // }
 
     getTours = () => {
-        return fetchTours(true, 20);
+        return this.getData(1);
     }
 
-    fetchTours = async () => {
-        try {
-            this.setTours(await fetchTours(true, 50));
-        } catch (e) {
-            console.error(e.message)
-        }
-    }
+    // fetchTours = async () => {
+    //     try {
+    //         this.setTours(await fetchTours(true, 50));
+    //     } catch (e) {
+    //         console.error(e.message)
+    //     }
+    // }
 
-    sort = (direction: string): void => {
-        const sortedTours = [...this.tours];
-        if (direction === 'asc') {
-            sortedTours.sort((a, b) => Number.parseInt(a.price) - Number.parseInt(b.price))
-        } else if (direction === 'desc') {
-            sortedTours.sort((a, b) => Number.parseInt(b.price) - Number.parseInt(a.price))
-        }
-        this.tours = sortedTours;
-    }
+    // sort = (direction: string): void => {
+    //     const sortedTours = [...this.tours];
+    //     if (direction === 'asc') {
+    //         sortedTours.sort((a, b) => Number.parseInt(a.price) - Number.parseInt(b.price))
+    //     } else if (direction === 'desc') {
+    //         sortedTours.sort((a, b) => Number.parseInt(b.price) - Number.parseInt(a.price))
+    //     }
+    //     this.tours = sortedTours;
+    // }
 
     // filter tours by prise from \ till
-    filterByPrice = (from: number, till: number): void => {
-        fetchTours(true, 50)
-            .then((data: ITour[]) => {
-                data = data.filter(value => Number.parseInt(value.price) >= from && Number.parseInt(value.price) <= till)
-                this.setTours(data);
-                if (this.sortedStatus) this.sort(this.sortedStatus);
-            })
-            .catch(e => console.log(e))
-    }
+    // filterByPrice = (from: number, till: number): void => {
+    //     fetchTours(true, 50)
+    //         .then((data: ITour[]) => {
+    //             data = data.filter(value => Number.parseInt(value.price) >= from && Number.parseInt(value.price) <= till)
+    //             this.setTours(data);
+    //             if (this.sortedStatus) this.sort(this.sortedStatus);
+    //         })
+    //         .catch(e => console.log(e))
+    // }
 
+      parseTours(data:any){ 
+        this.countofPages = +data.totalPages  
+        this.currentPage=data.number + 1
+        console.log(data)  
+        console.log("pageable", data.pageable)
+        console.log("sort", data.sort)
+        console.log(data.content)
+        this.tours = data.content        
+        
+      } 
+      
+      checkLocation(location:string){
+        console.log(new URLSearchParams(location).get("page"))
+        console.log(new URLSearchParams(location).get("size"))
+        console.log(new URLSearchParams(location).get("minPrice"))
+        console.log(new URLSearchParams(location).get("maxPrice"))
+        console.log(new URLSearchParams(location).get("sort"))
+
+      }
+
+      updateSearchResult(location:any){
+        let page = this.currentPage;
+        let size = this.countCardsOnPage
+        let minPrice = this.minPriceFilterMemory
+        let maxPrice = this.maxPriceFilterMemory
+        let sort = this.cheapFirst ?  "price,asc":  "price,desc"
+        let sortQuery = this.shouldSorting ? sort : ""
+
+        let url = `http://localhost:8765/api/tours/?page=${page}&size=${size}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sortQuery}`
+        let searchParam = `?page=${page}&size=${size}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sortQuery}`
+
+        location.push(searchParam)
+        this.getData()
+
+      }
+     
+      getTourById = async (tourId: number = 1) => {
+        
+        let url = `http://localhost:8765/api/tours/id/${tourId}`        
+
+        console.log(url)        
+        
+        await fetch(url)        
+            .then(data => data.json())            
+            .then(data => this.setCurrentTour(data)) 
+      }
+    
+      
+      getData = async (numPage = this.currentPage) => {
+        let page = numPage-1;
+        let size = this.countCardsOnPage
+        let minPrice = this.minPriceFilterMemory
+        let maxPrice = this.maxPriceFilterMemory
+        let sort = this.cheapFirst ?  "price,asc":  "price,desc"
+        let sortQuery = this.shouldSorting ? sort : ""
+
+        let url = `http://localhost:8765/api/tours/?page=${page}&size=${size}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sortQuery}`
+        let searchParam = `/tours/?page=${page}&size=${size}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sortQuery}`
+
+        
+        const state = {'page': page, 'size': size, 'minPrice': minPrice, 'maxPrice': maxPrice, 'sort': sort }
+        const title =""
+
+        console.log(url)       
+        
+        await fetch(url)        
+            .then(data => data.json())            
+            .then(data => this.parseTours(data))       
+        //this.location.push(searchParam)  
+        this.currentTour = this.tours[0]        
+      }        
 }
-
 export default new Data();
