@@ -1,0 +1,10 @@
+.filter_bar{
+    width: 100%;
+    height: 90px;
+    display: flex;
+
+}
+
+.filter_bar:target{
+    height: 100px;
+}
